@@ -2,6 +2,11 @@ package ec.devsu.api.bank;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
+import java.security.SecureRandom;
 
 @SpringBootApplication
 public class DevsuApiBankApplication {
@@ -10,4 +15,13 @@ public class DevsuApiBankApplication {
 		SpringApplication.run(DevsuApiBankApplication.class, args);
 	}
 
+	@Bean
+	public PasswordEncoder passwordEncoder() {
+		return new BCryptPasswordEncoder(12);
+	}
+
+	@Bean
+	public SecureRandom secureRandom() {
+		return new SecureRandom();
+	}
 }
