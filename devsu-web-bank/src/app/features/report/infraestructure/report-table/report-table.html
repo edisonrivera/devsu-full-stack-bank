@@ -1,0 +1,64 @@
+<div class="table-wrapper" role="region" aria-label="Listado de movimientos" tabindex="0">
+  @if (loading()) {
+    <div class="table__loading" aria-live="polite" aria-busy="true">
+      <div class="table__spinner"></div>
+      <span class="sr-only">Cargando movimientos…</span>
+    </div>
+  } @else {
+    <div class="table__toolbar">
+      <span class="table__count">{{ totalMovements() }} registros</span>
+      <button
+        class="table__btn-pdf"
+        (click)="downloadPdf.emit()"
+        [disabled]="movements().length === 0"
+        aria-label="Descargar PDF"
+      >
+        ↓ Descargar PDF
+      </button>
+    </div>
+
+    <table class="table" aria-label="Movimientos">
+      <thead class="table__head">
+      <tr>
+        <th scope="col" class="table__th">Fecha</th>
+        <th scope="col" class="table__th">Cliente</th>
+        <th scope="col" class="table__th">Número Cuenta</th>
+        <th scope="col" class="table__th">Tipo</th>
+        <th scope="col" class="table__th">Saldo Inicial</th>
+        <th scope="col" class="table__th">Estado</th>
+        <th scope="col" class="table__th">Movimiento</th>
+        <th scope="col" class="table__th">Saldo Disponible</th>
+      </tr>
+      </thead>
+      <tbody class="table__body">
+        @for (movement of movements(); track $index) {
+          <tr class="table__row">
+            <td class="table__td table__td--mono">{{ movement.createdAt | date:'dd/MM/yyyy' }}</td>
+            <td class="table__td table__td--mono">{{ movement.personName }}</td>
+            <td class="table__td table__td--mono">{{ movement.accountNumber }}</td>
+            <td class="table__td table__td--mono">{{ movement.accountType }}</td>
+            <td class="table__td table__td--mono">{{ movement.amountInitial | currency:'USD' }}</td>
+            <td class="table__td table__td--mono">
+              <span class="badge badge--{{ movement.status }}">{{ movement.status }}</span>
+            </td>
+            <td class="table__td table__td--mono">{{ movement.amount | currency:'USD' }}</td>
+            <td class="table__td table__td--mono">{{ movement.amountBalance | currency:'USD' }}</td>
+          </tr>
+        } @empty {
+          <tr>
+            <td class="table__empty" colspan="8">Sin resultados</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+
+    <div class="table-pagination">
+      <app-pagination
+        [totalItems]="totalMovements()"
+        [pageSize]="pageSize()"
+        [currentPage]="currentPage()"
+        (pageChange)="pageChange.emit($event)"
+      />
+    </div>
+  }
+</div>

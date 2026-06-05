@@ -1,0 +1,33 @@
+<nav class="pagination" aria-label="Paginación">
+  <button
+    class="pagination__btn pagination__btn--nav"
+    [disabled]="currentPage() === 0"
+    (click)="goTo(currentPage() - 1)"
+    aria-label="Página anterior"
+  >&#8249;</button>
+
+  @for (item of pageItems(); track item.page) {
+    @if (item.ellipsisBefore) {
+      <span class="pagination__ellipsis">…</span>
+    }
+    <button
+      class="pagination__btn"
+      [class.pagination__btn--active]="item.page === currentPage()"
+      [attr.aria-current]="item.page === currentPage() ? 'page' : null"
+      (click)="goTo(item.page)"
+    >{{ item.page + 1 }}</button>
+  }
+
+  <button
+    class="pagination__btn pagination__btn--nav"
+    [disabled]="currentPage() === totalPages() - 1"
+    (click)="goTo(currentPage() + 1)"
+    aria-label="Página siguiente"
+  >&#8250;</button>
+
+  <span class="pagination__info">
+    Página {{ currentPage() + 1 }} de {{ totalPages() }}
+    &nbsp;·&nbsp;{{ totalItems() }} registros
+  </span>
+
+</nav>

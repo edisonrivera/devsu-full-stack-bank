@@ -1,0 +1,59 @@
+<section class="movements">
+  <h1 class="page__title">Reportes</h1>
+
+  <div class="page__toolbar">
+    <div class="movements__filters">
+      <div class="movements__field">
+        <label class="movements__label" for="dateFrom">Desde</label>
+        <input
+          id="dateFrom"
+          class="movements__date"
+          type="date"
+          [ngModel]="dateFrom()"
+          (ngModelChange)="onDateChange('from', $event)"
+        />
+      </div>
+
+      <span class="movements__separator">—</span>
+
+      <div class="movements__field">
+        <label class="movements__label" for="dateTo">Hasta</label>
+        <input
+          id="dateTo"
+          class="movements__date"
+          type="date"
+          [ngModel]="dateTo()"
+          (ngModelChange)="onDateChange('to', $event)"
+          [min]="dateFrom()"
+        />
+      </div>
+
+      <button
+        class="movements__clear"
+        (click)="onClear()"
+        [disabled]="!dateFrom() && !dateTo()"
+        aria-label="Limpiar filtros"
+      >✕ Limpiar
+      </button>
+    </div>
+
+    <div class="page__error-slot">
+      @if (error()) {
+        <p class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ error() }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <app-report-table
+    [movements]="movements()"
+    [totalMovements]="totalMovements()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [pageSize]="10"
+    (pageChange)="onPageChange($event)"
+    (downloadPdf)="onDownloadPdf()"
+  />
+</section>

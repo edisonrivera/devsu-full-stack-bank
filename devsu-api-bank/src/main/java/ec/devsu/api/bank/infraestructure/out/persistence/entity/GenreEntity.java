@@ -1,7 +1,10 @@
 package ec.devsu.api.bank.infraestructure.out.persistence.entity;
 
+import ec.devsu.api.bank.domain.enums.GenreEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -21,5 +24,6 @@ public class GenreEntity {
 
     private String description;
 
-    private String mnemonic;
+    @Enumerated(EnumType.STRING)
+    private GenreEnum mnemonic;
 }

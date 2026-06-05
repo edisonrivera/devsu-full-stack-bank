@@ -3,7 +3,10 @@ package ec.devsu.api.bank.infraestructure.out.persistence.adapter;
 import ec.devsu.api.bank.application.port.out.movement.MovementRepositoryPort;
 import ec.devsu.api.bank.domain.enums.MovementTypeEnum;
 import ec.devsu.api.bank.domain.exception.InvalidDataException;
+import ec.devsu.api.bank.domain.exception.NotFoundDataException;
+import ec.devsu.api.bank.infraestructure.in.rest.dto.movement.request.MovementFilterRequest;
 import ec.devsu.api.bank.infraestructure.in.rest.dto.movement.request.MovementRequest;
+import ec.devsu.api.bank.infraestructure.in.rest.dto.movement.response.MovementFilterResponse;
 import ec.devsu.api.bank.infraestructure.out.persistence.cache.movement.MovementTypeCache;
 import ec.devsu.api.bank.infraestructure.out.persistence.entity.MovementEntity;
 import ec.devsu.api.bank.infraestructure.out.persistence.repository.AccountJpaRepository;
@@ -41,6 +44,17 @@ public class MovementPersistenteAdapter implements MovementRepositoryPort {
 
         this.movementJpaRepository.save(this.toEntity(accountId, movementType, amount, accountInfo.amount()));
         this.accountJpaRepository.updateBalance(this.getNewBalance(amount, accountInfo.amount()), accountId);
+    }
+
+    @Override
+    public MovementFilterResponse getMovements(final MovementFilterRequest request) {
+        final var movements = this.movementJpaRepository.getMovements(request.getIdentification(), request.pageable());
+
+        if (movements.isEmpty()) {
+            throw new NotFoundDataException("No se encontraron movimientos");
+        }
+
+        return new MovementFilterResponse(movements.getContent(), movements.getTotalElements());
     }
 
     private MovementEntity toEntity(final UUID accountId, final MovementTypeEnum movementType, final BigDecimal amount,

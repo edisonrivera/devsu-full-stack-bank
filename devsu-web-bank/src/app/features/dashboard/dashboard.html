@@ -1,0 +1,28 @@
+<div class="shell">
+  <header class="shell__header">
+    <span class="shell__brand">BANCO</span>
+  </header>
+
+  <div class="shell__body">
+    <nav class="shell__sidebar" aria-label="Navegación principal">
+      <ul class="nav__list" role="list">
+        @for (item of navItems; track item.route) {
+          <li class="nav__item">
+            <a
+              class="nav__link"
+              [routerLink]="item.route"
+              routerLinkActive="nav__link--active"
+              [routerLinkActiveOptions]="{ exact: item.route === '/' }"
+            >
+              {{ item.label }}
+            </a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <main class="shell__content" id="main-content" tabindex="-1">
+      <router-outlet />
+    </main>
+  </div>
+</div>

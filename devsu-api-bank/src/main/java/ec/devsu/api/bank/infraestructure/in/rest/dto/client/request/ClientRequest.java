@@ -1,5 +1,6 @@
 package ec.devsu.api.bank.infraestructure.in.rest.dto.client.request;
 
+import ec.devsu.api.bank.domain.enums.GenreEnum;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
@@ -12,9 +13,7 @@ public record ClientRequest(
         String name,
 
         @NotNull(message = "Género es requerido")
-        @Min(value = 1, message = "Género debe ser mayor o igual a {value}")
-        @Max(value = 255, message = "Género debe ser menor o igual a {value}")
-        Short genre,
+        GenreEnum genre,
 
         @NotNull(message = "Edad es requerida")
         @Min(value = 18, message = "Edad debe ser mayor o igual a {value}")

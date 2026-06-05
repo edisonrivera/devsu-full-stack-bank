@@ -1,9 +1,8 @@
 package ec.devsu.api.bank.application.port.in.report;
 
-import ec.devsu.api.bank.infraestructure.in.rest.dto.report.response.ReportResponse;
-
-import java.util.List;
+import ec.devsu.api.bank.infraestructure.in.rest.dto.common.request.PageableRequest;
+import ec.devsu.api.bank.infraestructure.in.rest.dto.movement.response.MovementReportResponse;
 
 public interface GenerateReportUseCase {
-    List<ReportResponse> getReport(String fecha);
+    MovementReportResponse getReport(String fecha, PageableRequest page);
 }

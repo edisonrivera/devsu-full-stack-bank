@@ -1,0 +1,149 @@
+<div class="overlay" (click)="onClose()" aria-hidden="true"></div>
+
+<dialog class="dialog" open aria-labelledby="dialog-title" aria-modal="true">
+  <header class="dialog__header">
+    <h2 class="dialog__title" id="dialog-title">Nuevo Cliente</h2>
+    <button class="dialog__close" (click)="onClose()" aria-label="Cerrar">✕</button>
+  </header>
+
+  <div class="dialog__body">
+
+    @if (serverError()) {
+      <p class="form__server-error" role="alert">
+        <span class="page__error-icon">!</span>
+        {{ serverError() }}
+      </p>
+    }
+
+    <div class="form__grid">
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-name">Nombre <span class="form__required">*</span></label>
+        <input id="f-name" class="form__input"
+               [class.form__input--error]="clientForm.name().touched() && clientForm.name().invalid()"
+               type="text" placeholder="Ej. Juan Carlos Pérez"
+               [formField]="clientForm.name"
+        />
+        <span class="form__error">
+          @if (clientForm.name().touched() && clientForm.name().invalid()) {
+            {{ clientForm.name().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-identification">Identificación <span class="form__required">*</span></label>
+        <input id="f-identification" class="form__input"
+               [class.form__input--error]="clientForm.identification().touched() && clientForm.identification().invalid()"
+               type="text" placeholder="Ej. 1752774305"
+               [formField]="clientForm.identification"
+               autocomplete="off"
+        />
+        <span class="form__error">
+          @if (clientForm.identification().touched() && clientForm.identification().invalid()) {
+            {{ clientForm.identification().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-phone">Teléfono <span class="form__required">*</span></label>
+        <input id="f-phone" class="form__input"
+               [class.form__input--error]="clientForm.phone().touched() && clientForm.phone().invalid()"
+               type="tel" placeholder="Ej. 0961731484"
+               [formField]="clientForm.phone"
+        />
+        <span class="form__error">
+          @if (clientForm.phone().touched() && clientForm.phone().invalid()) {
+            {{ clientForm.phone().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-genre">Género <span class="form__required">*</span></label>
+        <select id="f-genre" class="form__select"
+                [class.form__input--error]="clientForm.genre().touched() && clientForm.genre().invalid()"
+                [formField]="clientForm.genre"
+        >
+          <option value="" disabled>Seleccionar</option>
+          <option value="M">Masculino</option>
+          <option value="F">Femenino</option>
+          <option value="PNS">Prefiero no decirlo</option>
+        </select>
+        <span class="form__error">
+          @if (clientForm.genre().touched() && clientForm.genre().invalid()) {
+            {{ clientForm.genre().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-age">Edad <span class="form__required">*</span></label>
+        <input id="f-age" class="form__input"
+               [class.form__input--error]="clientForm.age().touched() && clientForm.age().invalid()"
+               type="number" placeholder="Ej. 25"
+               [formField]="clientForm.age"
+        />
+        <span class="form__error">
+          @if (clientForm.age().touched() && clientForm.age().invalid()) {
+            {{ clientForm.age().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-address">Dirección <span class="form__required">*</span></label>
+        <input id="f-address" class="form__input"
+               [class.form__input--error]="clientForm.address().touched() && clientForm.address().invalid()"
+               type="text" placeholder="Ej. Barrio Santiago Roldós Mz15 Lt16"
+               [formField]="clientForm.address"
+        />
+        <span class="form__error">
+          @if (clientForm.address().touched() && clientForm.address().invalid()) {
+            {{ clientForm.address().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-password">Contraseña <span class="form__required">*</span></label>
+        <div class="form__input-group">
+          <input id="f-password" class="form__input form__input--password"
+                 [class.form__input--error]="clientForm.password().touched() && clientForm.password().invalid()"
+                 [type]="showPassword() ? 'text' : 'password'"
+                 placeholder="Mínimo 8 caracteres"
+                 [formField]="clientForm.password"
+                 autocomplete="new-password"
+          />
+          <button class="form__toggle-pw" type="button"
+                  (click)="showPassword.update(v => !v)"
+                  [attr.aria-label]="showPassword() ? 'Ocultar contraseña' : 'Mostrar contraseña'"
+          >{{ showPassword() ? 'Ocultar' : 'Ver' }}</button>
+        </div>
+        <span class="form__error">
+          @if (clientForm.password().touched() && clientForm.password().invalid()) {
+            {{ clientForm.password().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="dialog__footer">
+    <button class="form__btn form__btn--cancel" type="button" (click)="onClose()">
+      Cancelar
+    </button>
+    <button class="form__btn form__btn--submit" type="button"
+            [disabled]="submitting()"
+            (click)="onSubmit()"
+    >
+      @if (submitting()) {
+        <span class="form__spinner"></span> Guardando…
+      } @else {
+        Crear Cliente
+      }
+    </button>
+  </footer>
+
+</dialog>

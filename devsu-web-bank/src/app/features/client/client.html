@@ -1,0 +1,55 @@
+<section>
+  <h1 class="page__title">Clientes</h1>
+
+  <div class="page__toolbar">
+    <div class="page__toolbar-row">
+      <input
+        class="page__search"
+        type="search"
+        placeholder="Buscar por identificación"
+        [value]="searchQuery()"
+        (input)="onSearch($any($event.target).value)"
+        [class.page__search--error]="validationError()"
+        [attr.aria-label]="'Buscar clientes'"
+        [attr.aria-describedby]="validationError() ? 'search-error' : null"
+        autocomplete="off"
+        spellcheck="false"
+        [maxLength]="CONFIG.MAX_LENGTH"
+      />
+
+      <button class="page__btn-create" (click)="showCreate.set(true)">
+        + Nuevo Cliente
+      </button>
+    </div>
+
+    <div class="page__error-slot">
+      @if (validationError()) {
+        <p id="search-error" class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ validationError() }}
+        </p>
+      } @else if (error()) {
+        <p class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ error() }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <app-client-table
+    [clients]="clients()"
+    [totalClients]="totalClients()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [pageSize]="10"
+    (pageChange)="onPageChange($event)"
+  />
+
+  @if (showCreate()) {
+    <app-client-create
+      (closed)="showCreate.set(false)"
+      (created)="onCreated()"
+    />
+  }
+</section>

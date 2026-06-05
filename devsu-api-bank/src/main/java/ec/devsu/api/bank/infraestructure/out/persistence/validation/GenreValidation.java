@@ -1,6 +1,6 @@
 package ec.devsu.api.bank.infraestructure.out.persistence.validation;
 
-import ec.devsu.api.bank.domain.exception.InvalidDataException;
+import ec.devsu.api.bank.domain.enums.GenreEnum;
 import ec.devsu.api.bank.infraestructure.out.persistence.cache.genre.GenreCache;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,9 +10,7 @@ import org.springframework.stereotype.Service;
 public class GenreValidation {
     private final GenreCache genreCache;
 
-    public void validateGenre(final Short genreId) {
-        if (!this.genreCache.getAllGenres().contains(genreId)) {
-            throw new InvalidDataException("Género no encontrado");
-        }
+    public Short validateGenre(final GenreEnum genreEnum) {
+        return this.genreCache.getGenreId(genreEnum);
     }
 }

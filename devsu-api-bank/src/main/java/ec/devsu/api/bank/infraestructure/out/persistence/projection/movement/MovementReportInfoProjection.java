@@ -1,9 +1,9 @@
-package ec.devsu.api.bank.infraestructure.in.rest.dto.report.response;
+package ec.devsu.api.bank.infraestructure.out.persistence.projection.movement;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-public record ReportResponse(
+public record MovementReportInfoProjection(
         LocalDateTime createdAt,
         String personName,
         String accountNumber,

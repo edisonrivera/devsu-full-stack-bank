@@ -7,6 +7,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface PersonMapper {
-    @Mapping(source = "genre", target = "genreId")
-    PersonEntity toPersonEntity(final ClientRequest clientRequest);
+    @Mapping(source = "genreId", target = "genreId")
+    PersonEntity toPersonEntity(final ClientRequest clientRequest, final Short genreId);
 }

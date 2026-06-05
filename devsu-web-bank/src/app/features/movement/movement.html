@@ -1,0 +1,41 @@
+<section>
+  <h1 class="page__title">Movimientos</h1>
+
+  <div class="page__toolbar">
+    <input
+      class="page__search"
+      type="search"
+      placeholder="Buscar por identificación"
+      [value]="searchQuery()"
+      (input)="onSearch($any($event.target).value)"
+      [class.page__search--error]="validationError()"
+      [attr.aria-describedby]="validationError() ? 'movement-search-error' : null"
+      autocomplete="off"
+      spellcheck="false"
+      [maxLength]="CONFIG.MAX_LENGTH"
+    />
+
+    <div class="page__error-slot">
+      @if (validationError()) {
+        <p id="movement-search-error" class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ validationError() }}
+        </p>
+      } @else if (error()) {
+        <p class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ error() }}
+        </p>
+      }
+    </div>
+  </div>
+
+  <app-movement-table
+    [movements]="movements()"
+    [totalMovements]="totalMovements()"
+    [loading]="loading()"
+    [currentPage]="currentPage()"
+    [pageSize]="10"
+    (pageChange)="onPageChange($event)"
+  />
+</section>

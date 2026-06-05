@@ -1,0 +1,38 @@
+.table__toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 14px;
+  border-bottom: 1px solid #e8e8e8;
+  background: #fafafa;
+}
+
+.table__count {
+  font-size: 0.72rem;
+  color: #888;
+  font-family: Arial, sans-serif;
+}
+
+.table__btn-pdf {
+  height: 28px;
+  padding: 0 12px;
+  font-family: Arial, sans-serif;
+  font-size: 0.72rem;
+  color: #fff;
+  background: #3d3db8;
+  border: 1px solid #3d3db8;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: background-color 0.12s ease;
+  white-space: nowrap;
+}
+
+.table__btn-pdf:hover:not(:disabled) {
+  background: #2d2d9a;
+  border-color: #2d2d9a;
+}
+
+.table__btn-pdf:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}

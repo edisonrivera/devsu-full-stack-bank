@@ -1,25 +1,28 @@
 package ec.devsu.api.bank.infraestructure.out.persistence.cache.genre;
 
+import ec.devsu.api.bank.domain.enums.GenreEnum;
 import ec.devsu.api.bank.infraestructure.out.persistence.repository.GenreJpaRepository;
 import jakarta.annotation.PostConstruct;
-import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.EnumMap;
+import java.util.Map;
 
 @Component
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class GenreCache {
     private final GenreJpaRepository genreJpaRepository;
 
-    private List<Short> genreIds;
+    private Map<GenreEnum, Short> genreMap = new EnumMap<>(GenreEnum.class);
 
     @PostConstruct
     public void init() {
-        this.genreIds = this.genreJpaRepository.getAllGenres();
+        this.genreJpaRepository.getAllGenres()
+                .forEach(g -> this.genreMap.put(g.mnemonic(), g.genreId()));
     }
 
-    public List<Short> getAllGenres() {
-        return this.genreIds;
+    public Short getGenreId(final GenreEnum genreEnum) {
+        return this.genreMap.get(genreEnum);
     }
 }
