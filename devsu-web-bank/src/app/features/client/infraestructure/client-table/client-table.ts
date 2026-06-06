@@ -15,5 +15,6 @@ export class ClientTable {
   readonly currentPage  = input<number>(0);
   readonly pageSize     = input<number>(10);
 
+  readonly deleteClient = output<string>();
   readonly pageChange = output<number>();
 }

@@ -1,10 +1,11 @@
 import {Component, input, output} from '@angular/core';
 import {Pagination} from '@shared/components/pagination';
 import {AccountInfoResponse} from '@features/account/domain/models/api/response/account-info.response';
+import {CurrencyPipe} from '@angular/common';
 
 @Component({
   selector: 'app-account-table',
-  imports: [Pagination],
+  imports: [Pagination, CurrencyPipe],
   templateUrl: './account-table.html'
 })
 export class AccountTable {
@@ -13,6 +14,8 @@ export class AccountTable {
   readonly loading = input<boolean>(false);
   readonly currentPage = input<number>(0);
   readonly pageSize = input<number>(10);
+
+  readonly deleteAccount = output<string>();
 
   readonly pageChange = output<number>();
 }

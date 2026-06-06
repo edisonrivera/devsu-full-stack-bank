@@ -28,6 +28,11 @@
           <span class="page__error-icon">!</span>
           {{ validationError() }}
         </p>
+      } @else if (deleteError()) {
+        <p class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ deleteError() }}
+        </p>
       } @else if (error()) {
         <p class="page__error" role="alert" aria-live="polite">
           <span class="page__error-icon">!</span>
@@ -44,6 +49,7 @@
     [currentPage]="currentPage()"
     [pageSize]="10"
     (pageChange)="onPageChange($event)"
+    (deleteClient)="deleteClient($event)"
   />
 
   @if (showCreate()) {

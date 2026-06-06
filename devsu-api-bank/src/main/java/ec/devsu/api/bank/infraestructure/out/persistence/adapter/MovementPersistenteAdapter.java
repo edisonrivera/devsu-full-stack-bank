@@ -34,8 +34,9 @@ public class MovementPersistenteAdapter implements MovementRepositoryPort {
     @Override
     public void create(final MovementRequest request) {
         final var amount = request.amount();
-        final var accountId = request.accountId();
-        final var accountInfo = this.accountValidation.findAccount(accountId);
+        final var accountNumber = request.accountNumber();
+        final var accountInfo = this.accountValidation.findAccount(accountNumber);
+        final var accountId = accountInfo.accountId();
         final var movementType = this.getMovementType(amount);
 
         this.accountValidation.isActiveAccount(accountInfo.status());

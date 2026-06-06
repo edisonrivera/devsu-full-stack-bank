@@ -9,7 +9,7 @@ import jakarta.validation.constraints.Pattern;
 
 public record ClientRequest(
         @NotBlank(message = "Nombre es requerido")
-        @Pattern(regexp = "[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{10,200}", message = "Nombre es inválido")
+        @Pattern(regexp = "[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{5,200}", message = "Nombre es inválido")
         String name,
 
         @NotNull(message = "Género es requerido")

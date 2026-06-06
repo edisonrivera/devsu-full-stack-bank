@@ -8,6 +8,7 @@
     <table class="table" aria-label="Clientes">
       <thead class="table__head">
       <tr>
+        <th scope="col" class="table__th table__th--action"></th>
         <th scope="col" class="table__th">Nombre</th>
         <th scope="col" class="table__th">Cédula</th>
         <th scope="col" class="table__th">Teléfono</th>
@@ -19,6 +20,14 @@
       <tbody class="table__body">
         @for (cliente of clients(); track cliente.clientId) {
           <tr class="table__row">
+            <td class="table__td table__td--action">
+              <button
+                class="table__btn-delete"
+                (click)="deleteClient.emit(cliente.clientId)"
+                [attr.aria-label]="'Eliminar cliente ' + cliente.name"
+                title="Eliminar"
+              >✕</button>
+            </td>
             <td class="table__td table__td--mono">{{ cliente.name }}</td>
             <td class="table__td table__td--mono">{{ cliente.identification }}</td>
             <td class="table__td table__td--mono">{{ cliente.phone }}</td>
@@ -32,7 +41,7 @@
           </tr>
         } @empty {
           <tr>
-            <td class="table__empty" colspan="6">Sin resultados</td>
+            <td class="table__empty" colspan="7">Sin resultados</td>
           </tr>
         }
       </tbody>

@@ -1,6 +1,7 @@
 package ec.devsu.api.bank.application.usecase.account;
 
 import ec.devsu.api.bank.application.port.in.account.CreateAccountUseCase;
+import ec.devsu.api.bank.application.port.in.account.DeleteAccountUseCase;
 import ec.devsu.api.bank.application.port.in.account.GetAccountUseCase;
 import ec.devsu.api.bank.application.port.out.account.AccountRepositoryPort;
 import ec.devsu.api.bank.infraestructure.in.rest.dto.account.request.AccountFilterRequest;
@@ -9,9 +10,11 @@ import ec.devsu.api.bank.infraestructure.in.rest.dto.account.response.AccountFil
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.UUID;
+
 @Service
 @AllArgsConstructor
-public class AccountUseCase implements CreateAccountUseCase, GetAccountUseCase {
+public class AccountUseCase implements CreateAccountUseCase, GetAccountUseCase, DeleteAccountUseCase {
     private final AccountRepositoryPort accountRepositoryPort;
 
     @Override
@@ -22,5 +25,10 @@ public class AccountUseCase implements CreateAccountUseCase, GetAccountUseCase {
     @Override
     public AccountFilterResponse getAccounts(final AccountFilterRequest request) {
         return this.accountRepositoryPort.getAccounts(request);
+    }
+
+    @Override
+    public void delete(UUID accountId) {
+        this.accountRepositoryPort.delete(accountId);
     }
 }

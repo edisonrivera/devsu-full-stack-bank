@@ -26,7 +26,7 @@ export class ClientCreate {
 
   readonly clientForm = form(this.clientModel, (s) => {
     required(s.name, {message: 'Nombre es requerido'});
-    pattern(s.name, /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{10,200}$/, {message: 'Nombre es inválido (10–200 letras)'});
+    pattern(s.name, /^[a-zA-ZáéíóúÁÉÍÓÚüÜñÑ ]{5,200}$/, {message: 'Nombre es inválido (10–200 letras)'});
 
     required(s.genre, {message: 'Género es requerido'});
     required(s.genre, {message: 'Género es requerido'});

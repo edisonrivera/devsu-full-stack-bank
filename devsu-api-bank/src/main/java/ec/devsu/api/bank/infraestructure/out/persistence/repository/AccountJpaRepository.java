@@ -16,7 +16,7 @@ import java.util.UUID;
 
 @Repository
 public interface AccountJpaRepository extends JpaRepository<AccountEntity, UUID> {
-    Optional<AccountProjection> findByAccountId(UUID accountId);
+    Optional<AccountProjection> findByAccountNumber(String accountNumber);
 
     @Modifying
     @Query("UPDATE AccountEntity SET amount = :balance WHERE accountId = :accountId")
@@ -31,4 +31,8 @@ public interface AccountJpaRepository extends JpaRepository<AccountEntity, UUID>
             WHERE :identification IS NULL OR p.identification = :identification
             """)
     Page<AccountInfoProjection> getAccounts(String identification, Pageable pageable);
+
+
+    @Query("SELECT SUM(amount) FROM AccountEntity WHERE clientId = :clientId")
+    Optional<BigDecimal> getTotalBalance(UUID clientId);
 }

@@ -7,6 +7,9 @@ import ec.devsu.api.bank.infraestructure.in.rest.dto.client.request.ClientReques
 import ec.devsu.api.bank.infraestructure.in.rest.dto.client.response.ClientFilterResponse;
 import ec.devsu.api.bank.infraestructure.out.persistence.entity.ClientEntity;
 import ec.devsu.api.bank.infraestructure.out.persistence.repository.ClientJpaRepository;
+import ec.devsu.api.bank.infraestructure.out.persistence.repository.PersonJpaRepository;
+import ec.devsu.api.bank.infraestructure.out.persistence.validation.AccountValidation;
+import ec.devsu.api.bank.infraestructure.out.persistence.validation.ClientValidation;
 import ec.devsu.api.bank.infraestructure.out.persistence.validation.PersonValidation;
 import lombok.AllArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -20,8 +23,11 @@ import java.util.UUID;
 public class ClientPersistenceAdapter implements ClientRepositoryPort {
     private final PersonPersistenceAdapter personPersistenceAdapter;
     private final ClientJpaRepository clientJpaRepository;
+    private final PersonJpaRepository personJpaRepository;
     private final PersonValidation personValidation;
     private final PasswordEncoder passwordEncoder;
+    private final ClientValidation clientValidation;
+    private final AccountValidation accountValidation;
 
     @Transactional
     @Override
@@ -42,6 +48,13 @@ public class ClientPersistenceAdapter implements ClientRepositoryPort {
         }
 
         return new ClientFilterResponse(clientes.getContent(), clientes.getTotalElements());
+    }
+
+    @Override
+    public void delete(final UUID clientId) {
+        this.clientValidation.validateExitsId(clientId);
+        this.accountValidation.isAllAccountEmpty(clientId);
+        this.personJpaRepository.deleteById(this.clientValidation.getPersonId(clientId));
     }
 
     public ClientEntity mapClient(final UUID personId, final String password) {

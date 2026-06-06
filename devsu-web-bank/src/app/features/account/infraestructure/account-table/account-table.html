@@ -8,6 +8,7 @@
     <table class="table" aria-label="Clientes">
       <thead class="table__head">
       <tr>
+        <th scope="col" class="table__th table__th--action"></th>
         <th scope="col" class="table__th">Número de Cuenta</th>
         <th scope="col" class="table__th">Tipo Cuenta</th>
         <th scope="col" class="table__th">Balance</th>
@@ -17,9 +18,17 @@
       <tbody class="table__body">
         @for (account of accounts(); track account.accountId) {
           <tr class="table__row">
+            <td class="table__td table__td--action">
+              <button
+                class="table__btn-delete"
+                (click)="deleteAccount.emit(account.accountId)"
+                [attr.aria-label]="'Eliminar cuenta ' + account.accountNumber"
+                title="Eliminar"
+              >✕</button>
+            </td>
             <td class="table__td table__td--mono">{{ account.accountNumber }}</td>
             <td class="table__td table__td--mono">{{ account.description }}</td>
-            <td class="table__td table__td--mono">{{ account.amount }}</td>
+            <td class="table__td table__td--mono">{{ account.amount | currency:'USD' }}</td>
             <td class="table__td table__td--mono">
               <span class="badge badge--{{ account.status }}">
                 {{ account.status }}
@@ -28,7 +37,7 @@
           </tr>
         } @empty {
           <tr>
-            <td class="table__empty" colspan="6">Sin resultados</td>
+            <td class="table__empty" colspan="5">Sin resultados</td>
           </tr>
         }
       </tbody>

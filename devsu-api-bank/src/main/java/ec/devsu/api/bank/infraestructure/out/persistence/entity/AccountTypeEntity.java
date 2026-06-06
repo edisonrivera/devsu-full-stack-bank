@@ -1,7 +1,10 @@
 package ec.devsu.api.bank.infraestructure.out.persistence.entity;
 
+import ec.devsu.api.bank.domain.enums.AccountTypeEnum;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
@@ -20,4 +23,7 @@ public class AccountTypeEntity {
     private Short accountTypeId;
 
     private String description;
+
+    @Enumerated(EnumType.STRING)
+    private AccountTypeEnum mnemonic;
 }

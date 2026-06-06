@@ -1,0 +1,103 @@
+<div class="overlay" (click)="onClose()" aria-hidden="true"></div>
+
+<dialog class="dialog" open aria-labelledby="dialog-title" aria-modal="true">
+  <header class="dialog__header">
+    <h2 class="dialog__title" id="dialog-title">Nueva Cuenta</h2>
+    <button class="dialog__close" (click)="onClose()" aria-label="Cerrar">✕</button>
+  </header>
+
+  <div class="dialog__body">
+
+    @if (serverError()) {
+      <p class="form__server-error" role="alert">
+        <span class="page__error-icon">!</span>
+        {{ serverError() }}
+      </p>
+    }
+
+    <div class="form__grid">
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-document">
+          Identificación del cliente <span class="form__required">*</span>
+        </label>
+        <input
+          id="f-document"
+          class="form__input"
+          [class.form__input--error]="accountForm.identification().touched() && accountForm.identification().invalid()"
+          type="text"
+          placeholder="Ej. 1752774305"
+          [formField]="accountForm.identification"
+          autocomplete="off"
+        />
+        <span class="form__error">
+          @if (accountForm.identification().touched() && accountForm.identification().invalid()) {
+            {{ accountForm.identification().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-account-type">
+          Tipo de cuenta <span class="form__required">*</span>
+        </label>
+        <select
+          id="f-account-type"
+          class="form__select"
+          [class.form__input--error]="accountForm.accountType().touched() && accountForm.accountType().invalid()"
+          [formField]="accountForm.accountType"
+        >
+          <option value="" disabled>Seleccionar</option>
+          <option value="CORR">Corriente</option>
+          <option value="AHORR">Ahorros</option>
+        </select>
+        <span class="form__error">
+          @if (accountForm.accountType().touched() && accountForm.accountType().invalid()) {
+            {{ accountForm.accountType().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field">
+        <label class="form__label" for="f-amount">
+          Monto inicial <span class="form__required">*</span>
+        </label>
+        <div class="form__input-prefix-group">
+          <span class="form__prefix">$</span>
+          <input
+            id="f-amount"
+            class="form__input form__input--prefixed"
+            [class.form__input--error]="accountForm.amount().touched() && accountForm.amount().invalid()"
+            type="number"
+            placeholder="0.00"
+            step="0.01"
+            [formField]="accountForm.amount"
+          />
+        </div>
+        <span class="form__error">
+          @if (accountForm.amount().touched() && accountForm.amount().invalid()) {
+            {{ accountForm.amount().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="dialog__footer">
+    <button class="form__btn form__btn--cancel" type="button" (click)="onClose()">
+      Cancelar
+    </button>
+    <button
+      class="form__btn form__btn--submit"
+      type="button"
+      [disabled]="submitting() || this.accountForm().invalid()"
+      (click)="onSubmit()"
+    >
+      @if (submitting()) {
+        <span class="form__spinner"></span> Guardando…
+      } @else {
+        Crear Cuenta
+      }
+    </button>
+  </footer>
+</dialog>

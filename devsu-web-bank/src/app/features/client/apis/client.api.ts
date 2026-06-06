@@ -25,4 +25,6 @@ export class ClientApi implements ClientPort {
   createClient(request: ClientCreateRequest): Observable<void> {
     return this.http.post<void>(this.baseUrl, request);
   }
+
+  delete = (clientId: string): Observable<void> => this.http.delete<void>(`${this.baseUrl}/${clientId}`);
 }

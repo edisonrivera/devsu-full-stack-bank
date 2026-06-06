@@ -20,6 +20,7 @@ export class Client {
   protected readonly CONFIG = IdentificationConstants;
   protected readonly CONFIG_PAGE = PageConstants;
 
+  readonly deleteError = signal<string | null>(null);
   readonly showCreate = signal(false);
   readonly searchQuery = signal('');
   readonly currentPage = signal(0);
@@ -77,5 +78,16 @@ export class Client {
     this.showCreate.set(false);
     this.#resource.reload();
     this.searchQuery.set('');
+  }
+
+  deleteClient(clientId: string): void {
+    this.deleteError.set(null);
+    this.#clientPort.delete(clientId).subscribe({
+      next: () => this.#resource.reload(),
+      error: (err: any) => {
+        const body = err?.error ?? err;
+        this.deleteError.set((body as ErrorResponse)?.message ?? 'Error al eliminar el cliente');
+      },
+    });
   }
 }

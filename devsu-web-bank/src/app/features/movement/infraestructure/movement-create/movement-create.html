@@ -1,0 +1,106 @@
+<div class="overlay" (click)="onClose()" aria-hidden="true"></div>
+
+<dialog class="dialog" open aria-labelledby="dialog-title" aria-modal="true">
+
+  <header class="dialog__header">
+    <h2 class="dialog__title" id="dialog-title">Nuevo Movimiento</h2>
+    <button class="dialog__close" (click)="onClose()" aria-label="Cerrar">✕</button>
+  </header>
+
+  <div class="dialog__body">
+
+    @if (serverError()) {
+      <p class="form__server-error" role="alert">
+        <span class="page__error-icon">!</span>
+        {{ serverError() }}
+      </p>
+    }
+
+    <div class="form__grid">
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-account">
+          Número de cuenta <span class="form__required">*</span>
+        </label>
+        <input
+          id="f-account"
+          class="form__input"
+          [class.form__input--error]="movementForm.accountNumber().touched() && movementForm.accountNumber().invalid()"
+          type="text"
+          placeholder="Ej. CTA-0001234"
+          [formField]="movementForm.accountNumber"
+          autocomplete="off"
+        />
+        <span class="form__error">
+          @if (movementForm.accountNumber().touched() && movementForm.accountNumber().invalid()) {
+            {{ movementForm.accountNumber().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+      <div class="form__field form__field--full">
+        <label class="form__label" for="f-amount">
+          Monto <span class="form__required">*</span>
+        </label>
+
+        <div class="form__amount-row">
+          <div class="form__type-toggle">
+            <button
+              type="button"
+              class="form__type-btn"
+              [class.form__type-btn--active]="movementModel().amount >= 0"
+              (click)="movementForm.amount().value.set(Math.abs(movementModel().amount))"
+            >+ Depósito</button>
+            <button
+              type="button"
+              class="form__type-btn form__type-btn--debit"
+              [class.form__type-btn--active]="movementModel().amount < 0"
+              (click)="movementForm.amount().value.set(-Math.abs(movementModel().amount))"
+            >− Retiro</button>
+          </div>
+
+          <div class="form__input-prefix-group">
+            <span class="form__prefix"
+                  [class.form__prefix--credit]="movementModel().amount >= 0"
+                  [class.form__prefix--debit]="movementModel().amount < 0"
+            >$</span>
+            <input
+              id="f-amount"
+              class="form__input form__input--prefixed"
+              [class.form__input--error]="movementForm.amount().touched() && movementForm.amount().invalid()"
+              type="number"
+              placeholder="0.00"
+              step="0.01"
+              [formField]="movementForm.amount"
+            />
+          </div>
+        </div>
+
+        <span class="form__error">
+          @if (movementForm.amount().touched() && movementForm.amount().invalid()) {
+            {{ movementForm.amount().errors()[0]?.message }}
+          }
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+  <footer class="dialog__footer">
+    <button class="form__btn form__btn--cancel" type="button" (click)="onClose()">
+      Cancelar
+    </button>
+    <button
+      class="form__btn form__btn--submit"
+      type="button"
+      [disabled]="submitting() || this.movementForm().invalid()"
+      (click)="onSubmit()"
+    >
+      @if (submitting()) {
+        <span class="form__spinner"></span> Guardando…
+      } @else {
+        Registrar Movimiento
+      }
+    </button>
+  </footer>
+
+</dialog>

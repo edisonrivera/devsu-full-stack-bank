@@ -17,4 +17,14 @@ public class ClientValidation {
             throw new NotFoundDataException("Cliente no encontrado");
         }
     }
+
+    public UUID getClienteId(final String identification) {
+        return this.clientJpaRepository.getClientIdByIdentification(identification)
+                .orElseThrow(() -> new NotFoundDataException("Cliente no encontrado"));
+    }
+
+    public UUID getPersonId(final UUID clientId) {
+        return this.clientJpaRepository.getPersonIdByClientId(clientId)
+                .orElseThrow(() ->  new NotFoundDataException("Cliente no encontrado"));
+    }
 }

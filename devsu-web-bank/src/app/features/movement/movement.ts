@@ -7,10 +7,11 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs';
 import {IdentificationConstants} from '@shared/constants/identification-constants';
 import {PageConstants} from '@shared/constants/page-constants';
+import {MovementCreate} from '@features/movement/infraestructure/movement-create/movement-create';
 
 @Component({
   selector: 'app-movement',
-  imports: [MovementTable],
+  imports: [MovementTable, MovementCreate],
   templateUrl: './movement.html',
   styleUrl: './movement.css',
 })
@@ -20,6 +21,7 @@ export class Movement {
   protected readonly CONFIG = IdentificationConstants;
   protected readonly CONFIG_PAGE = PageConstants;
 
+  readonly showCreate = signal(false);
   readonly searchQuery     = signal('');
   readonly currentPage     = signal(0);
   readonly validationError = computed(() => {
@@ -59,12 +61,17 @@ export class Movement {
     return (body as ErrorResponse)?.message ?? 'Error inesperado';
   });
 
-  onSearch(query: string): void {
+  onSearch(query: string) {
     this.currentPage.set(0);
     this.searchQuery.set(query);
   }
 
-  onPageChange(page: number): void {
+  onPageChange(page: number) {
     this.currentPage.set(page);
+  }
+
+  onCreated(): void {
+    this.showCreate.set(false);
+    this.#resource.reload();
   }
 }

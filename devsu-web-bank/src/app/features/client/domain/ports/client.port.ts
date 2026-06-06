@@ -8,4 +8,6 @@ export abstract class ClientPort {
   abstract getClients(request: Signal<ClientFilterRequest | undefined>): HttpResourceRef<ClientResponse>;
 
   abstract createClient(request: ClientCreateRequest): Observable<void>;
+
+  abstract delete(clientId: string): Observable<void>;
 }

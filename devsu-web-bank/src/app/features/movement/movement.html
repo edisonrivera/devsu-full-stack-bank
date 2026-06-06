@@ -2,18 +2,24 @@
   <h1 class="page__title">Movimientos</h1>
 
   <div class="page__toolbar">
-    <input
-      class="page__search"
-      type="search"
-      placeholder="Buscar por identificación"
-      [value]="searchQuery()"
-      (input)="onSearch($any($event.target).value)"
-      [class.page__search--error]="validationError()"
-      [attr.aria-describedby]="validationError() ? 'movement-search-error' : null"
-      autocomplete="off"
-      spellcheck="false"
-      [maxLength]="CONFIG.MAX_LENGTH"
-    />
+    <div class="page__toolbar-row">
+      <input
+        class="page__search"
+        type="search"
+        placeholder="Buscar por identificación"
+        [value]="searchQuery()"
+        (input)="onSearch($any($event.target).value)"
+        [class.page__search--error]="validationError()"
+        [attr.aria-describedby]="validationError() ? 'movement-search-error' : null"
+        autocomplete="off"
+        spellcheck="false"
+        [maxLength]="CONFIG.MAX_LENGTH"
+      />
+
+      <button class="page__btn-create" (click)="showCreate.set(true)">
+        + Nuevo Movimiento
+      </button>
+    </div>
 
     <div class="page__error-slot">
       @if (validationError()) {
@@ -38,4 +44,11 @@
     [pageSize]="10"
     (pageChange)="onPageChange($event)"
   />
+
+  @if (showCreate()) {
+    <app-movement-create
+      (closed)="showCreate.set(false)"
+      (created)="onCreated()"
+    />
+  }
 </section>

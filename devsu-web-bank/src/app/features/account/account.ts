@@ -7,10 +7,11 @@ import {toObservable, toSignal} from '@angular/core/rxjs-interop';
 import {debounceTime, distinctUntilChanged, map} from 'rxjs';
 import {IdentificationConstants} from '@shared/constants/identification-constants';
 import {PageConstants} from '@shared/constants/page-constants';
+import {AccountCreate} from '@features/account/infraestructure/account-create/account-create';
 
 @Component({
   selector: 'app-account',
-  imports: [AccountTable],
+  imports: [AccountTable, AccountCreate],
   templateUrl: './account.html',
 })
 export class Account {
@@ -19,6 +20,8 @@ export class Account {
   protected readonly CONFIG = IdentificationConstants;
   protected readonly CONFIG_PAGE = PageConstants;
 
+  readonly deleteError = signal<string | null>(null);
+  readonly showCreate = signal(false);
   readonly searchQuery = signal('');
   readonly currentPage = signal(0);
   readonly validationError = computed(() => {
@@ -65,5 +68,22 @@ export class Account {
 
   onPageChange(page: number): void {
     this.currentPage.set(page);
+  }
+
+  onCreated(): void {
+    this.showCreate.set(false);
+    this.#resource.reload();
+    this.searchQuery.set('');
+  }
+
+  deleteAccount(accountId: string): void {
+    this.deleteError.set(null);
+    this.#accountPort.deleteAccount(accountId).subscribe({
+      next: () => this.#resource.reload(),
+      error: (err: any) => {
+        const body = err?.error ?? err;
+        this.deleteError.set((body as ErrorResponse)?.message ?? 'Error al eliminar la cuenta');
+      },
+    });
   }
 }

@@ -135,7 +135,7 @@
       Cancelar
     </button>
     <button class="form__btn form__btn--submit" type="button"
-            [disabled]="submitting()"
+            [disabled]="submitting() || this.clientForm().invalid()"
             (click)="onSubmit()"
     >
       @if (submitting()) {

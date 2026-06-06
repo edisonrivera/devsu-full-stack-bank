@@ -2,24 +2,35 @@
   <h1 class="page__title">Cuentas</h1>
 
   <div class="page__toolbar">
-    <input
-      class="page__search"
-      type="search"
-      placeholder="Buscar por identificación"
-      [value]="searchQuery()"
-      (input)="onSearch($any($event.target).value)"
-      [class.page__search--error]="validationError()"
-      [attr.aria-describedby]="validationError() ? 'account-search-error' : null"
-      autocomplete="off"
-      spellcheck="false"
-      [maxLength]="CONFIG.MAX_LENGTH"
-    />
+    <div class="page__toolbar-row">
+      <input
+        class="page__search"
+        type="search"
+        placeholder="Buscar por identificación"
+        [value]="searchQuery()"
+        (input)="onSearch($any($event.target).value)"
+        [class.page__search--error]="validationError()"
+        [attr.aria-describedby]="validationError() ? 'account-search-error' : null"
+        autocomplete="off"
+        spellcheck="false"
+        [maxLength]="CONFIG.MAX_LENGTH"
+      />
+
+      <button class="page__btn-create" (click)="showCreate.set(true)">
+        + Nueva Cuenta
+      </button>
+    </div>
 
     <div class="page__error-slot">
       @if (validationError()) {
         <p id="account-search-error" class="page__error" role="alert" aria-live="polite">
           <span class="page__error-icon">!</span>
           {{ validationError() }}
+        </p>
+      } @else if (deleteError()) {
+        <p class="page__error" role="alert" aria-live="polite">
+          <span class="page__error-icon">!</span>
+          {{ deleteError() }}
         </p>
       } @else if (error()) {
         <p class="page__error" role="alert" aria-live="polite">
@@ -37,5 +48,13 @@
     [currentPage]="currentPage()"
     [pageSize]="10"
     (pageChange)="onPageChange($event)"
+    (deleteAccount)="deleteAccount($event)"
   />
+
+  @if (showCreate()) {
+    <app-account-create
+      (closed)="showCreate.set(false)"
+      (created)="onCreated()"
+    />
+  }
 </section>
