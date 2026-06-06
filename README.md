@@ -1,6 +1,6 @@
 # 🏦 Devsu Bank — Full Stack Deployment
 
-Stack completo: **Angular 21** · **Spring Boot** · **SQL Server 2022**
+Stack completo: **Angular 22** · **Spring Boot** · **SQL Server 2022**
 
 ---
 
