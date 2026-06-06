@@ -1,0 +1,75 @@
+services:
+  sqlserverbank:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserverbank
+    restart: unless-stopped
+    environment:
+      ACCEPT_EULA: "Y"
+      SA_PASSWORD: ${SA_PASSWORD}
+      MSSQL_PID: Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserverbank-data:/var/opt/mssql
+      - ./sql:/scripts:ro
+      - ./sql/entrypoint.sh:/entrypoint.sh:ro
+    entrypoint: ["/bin/bash", "/entrypoint.sh"]
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD-SHELL", "/opt/mssql-tools18/bin/sqlcmd -S localhost -U sa -P $$SA_PASSWORD -Q \"SET NOCOUNT ON; SELECT COUNT(*) FROM sys.databases WHERE name='devsu_bank'\" -h -1 -No 2>/dev/null | grep -q 1 || exit 1"]
+      interval: 15s
+      timeout: 10s
+      retries: 20
+      start_period: 60s
+
+  springboot-app:
+    build:
+      context: ./devsu-api-bank
+      dockerfile: Dockerfile
+      target: production
+    image: mi-app-backend:latest
+    container_name: springboot-app
+    restart: unless-stopped
+    depends_on:
+      sqlserverbank:
+        condition: service_healthy
+    environment:
+      DB_HOST: sqlserverbank
+      DB_PORT: 1433
+      DB_NAME: ${DB_NAME:-devsu_bank}
+      DB_USER: ${DB_USER:-sa}
+      DB_PASSWORD: ${SA_PASSWORD}
+    ports:
+      - "8080:8080"
+    networks:
+      - app-net
+
+  angular-app:
+    build:
+      context: ./devsu-web-bank
+      dockerfile: Dockerfile
+      target: production
+    image: mi-app-frontend:latest
+    container_name: angular-app
+    restart: unless-stopped
+    depends_on:
+      - springboot-app
+    ports:
+      - "80:80"
+    networks:
+      - app-net
+    healthcheck:
+      test: ["CMD-SHELL", "wget -qO- http://localhost/ || exit 1"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+networks:
+  app-net:
+    driver: bridge
+
+volumes:
+  sqlserverbank-data:
+    driver: local
