@@ -1,0 +1,352 @@
+{
+  "info": {
+    "_postman_id": "fbca2a81-524b-41d0-a2b9-419cfed4bf5a",
+    "name": "Devsu Api Bank",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "27289426"
+  },
+  "item": [
+    {
+      "name": "Clients",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"name\": \"Edison Rivera\",\r\n    \"genre\": \"M\",\r\n    \"age\": 18,\r\n    \"identification\": \"1752774301\",\r\n    \"address\": \"Barrio Santiago Roldós Mz15 Lt16\",\r\n    \"phone\": \"0961731484\",\r\n    \"password\": \"Test123123!$\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/clients",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "clients"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 0,\r\n    \"pageSize\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/clients/filter",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "clients",
+                "filter"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Client",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 0,\r\n    \"pageSize\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/clients/d7cca80f-8052-4f29-bbee-d018fd500783",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "clients",
+                "d7cca80f-8052-4f29-bbee-d018fd500783"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Account",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"accountType\": \"CORR\",\r\n    \"amount\": 100,\r\n    \"identification\": \"1752774301\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/accounts",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "accounts"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 0,\r\n    \"pageSize\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/accounts/filter",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "accounts",
+                "filter"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Account",
+          "request": {
+            "method": "DELETE",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 0,\r\n    \"pageSize\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/accounts/cc01468d-3f01-4ee1-a1de-58e784655ef4",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "accounts",
+                "cc01468d-3f01-4ee1-a1de-58e784655ef4"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Movements",
+      "item": [
+        {
+          "name": "Register",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": -400,\r\n    \"accountNumber\": \"6KO6KZ8EDEWQ98KY91JHONLTZV-2SUV58G1DN7XW8KYD03VNUF\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/movements",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "movements"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "Filter",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"page\": 0,\r\n    \"pageSize\": 10\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/movements/filter",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "movements",
+                "filter"
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "Reports",
+      "item": [
+        {
+          "name": "JSON Report",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 0,\r\n    \"accountId\": \"3CE16CCA-912D-44EA-AF97-6F223FF3E4F7\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/reportes?fecha=01/06/2026-06/06/2026&pageNo=0&pageSize=10",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "reportes"
+              ],
+              "query": [
+                {
+                  "key": "fecha",
+                  "value": "01/06/2026-06/06/2026"
+                },
+                {
+                  "key": "pageNo",
+                  "value": "0"
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10"
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "PDF Report",
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "method": "GET",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"amount\": 0,\r\n    \"accountId\": \"3CE16CCA-912D-44EA-AF97-6F223FF3E4F7\"\r\n}"
+            },
+            "url": {
+              "raw": "http://localhost/devsu-api-bank/v1/api/reportes/pdf?fecha=01/06/2026-06/06/2026",
+              "protocol": "http",
+              "host": [
+                "localhost"
+              ],
+              "path": [
+                "devsu-api-bank",
+                "v1",
+                "api",
+                "reportes",
+                "pdf"
+              ],
+              "query": [
+                {
+                  "key": "fecha",
+                  "value": "01/06/2026-06/06/2026"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
